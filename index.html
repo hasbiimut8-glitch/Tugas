@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Perusahaan - Hisam</title>
+    <style>
+      
+      :root {
+    --bg: #ffffff;
+    --text: #333333;
+    --table-bg: #f4f4f4;
+}
+
+[data-theme="dark"] {
+    --bg: #1a1a1a;
+    --text: #f0f0f0;
+    --table-bg: #333333;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: sans-serif;
+    transition: 0.3s;
+}
+
+.container { padding: 20px; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th { background-color: var(--table-bg); }
+
+button {
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: #007bff;
+    color: white;
+}
+
+      
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Internal Data System</h1>
+            <button id="dark-mode-toggle">Mode Gelap</button>
+        </header>
+
+        <section class="intro">
+            <h2>Selamat Datang, Staff IT</h2>
+            <p>Halaman ini digunakan untuk memantau inventaris atau data proyek perusahaan secara real-time. Pastikan data selalu diperbarui.</p>
+        </section>
+
+        <section class="data-table">
+            <table id="myTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama Proyek</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    </tbody>
+            </table>
+        </section>
+    </div>
+    <script>
+      
+      // 1. Data Dummy (Array of Objects)
+const dataProyek = [
+    { id: "001", nama: "Web E-Commerce", status: "Selesai" },
+    { id: "002", nama: "App Mobile", status: "Proses" },
+    { id: "003", nama: "Audit Security", status: "Tertunda" }
+];
+
+// 2. Menampilkan Data ke Tabel
+const tableBody = document.getElementById('table-body');
+
+dataProyek.forEach((item) => {
+    let row = `<tr>
+        <td>${item.id}</td>
+        <td>${item.nama}</td>
+        <td>${item.status}</td>
+    </tr>`;
+    tableBody.innerHTML += row;
+});
+
+// 3. Fitur Dark Mode & LocalStorage
+const toggleBtn = document.getElementById('dark-mode-toggle');
+const currentTheme = localStorage.getItem('theme');
+
+// Cek jika sebelumnya sudah set dark mode
+if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+}
+
+toggleBtn.addEventListener('click', () => {
+    let theme = document.documentElement.getAttribute('data-theme');
+    
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    }
+});
+
+      
+    </script>
+</body>
+</html>
