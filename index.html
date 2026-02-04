@@ -3,51 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Perusahaan - Hisam</title>
+    <title>Dashboard Professional - Hisam</title>
     <style>
       
       :root {
-    --bg: #ffffff;
-    --text: #333333;
-    --table-bg: #f4f4f4;
+    --bg-body: #f4f7f6;
+    --bg-card: #ffffff;
+    --text-main: #2d3436;
+    --primary: #0984e3; /* Biru Navy */
+    --accent: #6c5ce7;  /* Ungu */
+    --success: #00b894; /* Hijau */
+    --border: #dfe6e9;
 }
 
 [data-theme="dark"] {
-    --bg: #1a1a1a;
-    --text: #f0f0f0;
-    --table-bg: #333333;
+    --bg-body: #121212;
+    --bg-card: #1e1e1e;
+    --text-main: #e0e0e0;
+    --primary: #74b9ff;
+    --border: #333333;
 }
 
 body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: sans-serif;
-    transition: 0.3s;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 15px;
+    transition: all 0.3s ease;
 }
 
-.container { padding: 20px; }
+.container {
+    max-width: 500px; /* Optimal untuk layar HP */
+    margin: auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.brand h1 { margin: 0; font-size: 1.4rem; color: var(--primary); }
+.brand h1 span { color: var(--accent); }
+.brand p { margin: 0; font-size: 0.7rem; opacity: 0.7; }
+
+.btn-mode {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 20px;
+    background: var(--primary);
+    color: white;
+    font-size: 0.8rem;
+}
+
+.intro-card {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.intro-card h2 { margin-top: 0; font-size: 1.2rem; }
+.intro-card p { font-size: 0.9rem; line-height: 1.5; margin-bottom: 0; }
+
+.table-container {
+    background: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
-th, td {
-    border: 1px solid #ddd;
+th {
+    background: var(--primary);
+    color: white;
     padding: 12px;
+    font-size: 0.85rem;
     text-align: left;
 }
 
-th { background-color: var(--table-bg); }
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+}
 
-button {
-    padding: 8px 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    border: none;
-    background: #007bff;
-    color: white;
+tr:last-child td { border-bottom: none; }
+
+.status-label {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    background: rgba(0, 184, 148, 0.1);
+    color: var(--success);
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.7rem;
+    opacity: 0.5;
 }
 
       
@@ -56,17 +120,20 @@ button {
 <body>
     <div class="container">
         <header>
-            <h1>Internal Data System</h1>
-            <button id="dark-mode-toggle">Mode Gelap</button>
+            <div class="brand">
+                <h1>TechCorp<span>.id</span></h1>
+                <p>Data Management System</p>
+            </div>
+            <button id="dark-mode-toggle" class="btn-mode">🌓 Mode</button>
         </header>
 
-        <section class="intro">
-            <h2>Selamat Datang, Staff IT</h2>
-            <p>Halaman ini digunakan untuk memantau inventaris atau data proyek perusahaan secara real-time. Pastikan data selalu diperbarui.</p>
+        <section class="intro-card">
+            <h2>Halo, Hisam!</h2>
+            <p>Selamat bekerja. Berikut adalah laporan progres proyek yang sedang berjalan di divisi IT hari ini.</p>
         </section>
 
-        <section class="data-table">
-            <table id="myTable">
+        <section class="table-container">
+            <table>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -78,48 +145,58 @@ button {
                     </tbody>
             </table>
         </section>
+
+        <footer>
+            <p>&copy; 2026 TechCorp - Employee Portal</p>
+        </footer>
     </div>
+
     <script>
       
-      // 1. Data Dummy (Array of Objects)
-const dataProyek = [
-    { id: "001", nama: "Web E-Commerce", status: "Selesai" },
-    { id: "002", nama: "App Mobile", status: "Proses" },
-    { id: "003", nama: "Audit Security", status: "Tertunda" }
+      // 1. Data Array (Data Pekerjaan)
+const dataPekerjaan = [
+    { id: "TX-01", nama: "Maintenance Server", status: "Selesai" },
+    { id: "TX-02", nama: "Update Security Patch", status: "Proses" },
+    { id: "TX-03", nama: "Migrasi Database", status: "Selesai" },
+    { id: "TX-04", nama: "Redesign Landing Page", status: "Selesai" }
 ];
 
-// 2. Menampilkan Data ke Tabel
-const tableBody = document.getElementById('table-body');
+// 2. Fungsi Menampilkan Tabel
+const renderTable = () => {
+    const tableBody = document.getElementById('table-body');
+    tableBody.innerHTML = ""; // Kosongkan dulu
 
-dataProyek.forEach((item) => {
-    let row = `<tr>
-        <td>${item.id}</td>
-        <td>${item.nama}</td>
-        <td>${item.status}</td>
-    </tr>`;
-    tableBody.innerHTML += row;
-});
+    dataPekerjaan.forEach((item) => {
+        const row = `
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.nama}</td>
+                <td><span class="status-label">${item.status}</span></td>
+            </tr>
+        `;
+        tableBody.innerHTML += row;
+    });
+};
 
-// 3. Fitur Dark Mode & LocalStorage
+// 3. Logika Dark Mode dengan LocalStorage
 const toggleBtn = document.getElementById('dark-mode-toggle');
-const currentTheme = localStorage.getItem('theme');
 
-// Cek jika sebelumnya sudah set dark mode
-if (currentTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
+// Cek simpanan tema di memori HP
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
 }
 
 toggleBtn.addEventListener('click', () => {
-    let theme = document.documentElement.getAttribute('data-theme');
+    let currentTheme = document.documentElement.getAttribute('data-theme');
+    let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
-    if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-    }
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme); // Simpan pilihan
 });
+
+// Jalankan fungsi tampil data saat web dibuka
+renderTable();
 
       
     </script>
